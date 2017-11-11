@@ -1,12 +1,10 @@
 package com.wenda.controller;
 
-import com.wenda.model.User;
 import com.wenda.service.WendaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
@@ -20,7 +18,7 @@ import java.util.*;
 /**
  * Created by wanganyu on 2017/11/03.
  */
-@Controller
+//@Controller
 public class IndexController {
     private static final Logger logger = LoggerFactory.getLogger(IndexController.class);
     @Autowired
@@ -52,7 +50,7 @@ public class IndexController {
             map.put(String.valueOf(i),String.valueOf(i*i));
         }
         model.addAttribute("map", map);
-        model.addAttribute("user",new User("Tom"));
+       // model.addAttribute("user",new User("Tom"));
         return "home";
     }
 
