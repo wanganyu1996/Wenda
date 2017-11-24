@@ -26,6 +26,9 @@ public class CommentService {
         comment.setContent(sensitiveService.filter(comment.getContent()));
        return  commentDao.addComment(comment)>0?comment.getId():0;
     }
+    public Comment getCommentById(int id){
+        return commentDao.getCommentById(id);
+    }
     public int getCommnetCount(int entityId,int entityType){
         return commentDao.getCommentCount(entityId,entityType);
     }

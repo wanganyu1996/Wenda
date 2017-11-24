@@ -1,8 +1,10 @@
 import com.wenda.WendaApplication;
 import com.wenda.dao.QuestionDao;
 import com.wenda.dao.UserDao;
+import com.wenda.model.EntityType;
 import com.wenda.model.Question;
 import com.wenda.model.User;
+import com.wenda.service.FollowService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,6 +13,7 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.swing.text.html.parser.Entity;
 import java.util.Date;
 import java.util.Random;
 
@@ -28,6 +31,8 @@ public class InitDatabaseTests {
     @Autowired
     QuestionDao questionDao;
 
+    @Autowired
+    FollowService followService;
 
     @Test
     public void initDatabase(){
@@ -41,7 +46,9 @@ public class InitDatabaseTests {
             userDao.addUser(user);
             user.setPassword("xx");
             userDao.updatePassword(user);
-
+            for(int j=1;j<i;++j){
+                followService.follow(j, EntityType.ENTITY_USER,i);
+            }
         Question question =new Question();
         question.setCommentCount(i);
         Date date=new Date();

@@ -1,7 +1,6 @@
 package com.wenda.dao;
 
 import com.wenda.model.Comment;
-import com.wenda.model.Question;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -18,7 +17,7 @@ public interface CommentDao {
     int addComment(Comment comment);
 
     @Select({"select ",SELECT_FILEDS," from ",TABLE_NAME," where id=#{id}"})
-    Question selectById(int id);
+    Comment getCommentById(int id);
 
     @Select({"select ",SELECT_FILEDS," from ",TABLE_NAME," where entity_id=#{entityId} and entity_type=#{entityType} order by created_date desc"})
    List<Comment> selectCommentByEntity(@Param("entityId") int entityId,

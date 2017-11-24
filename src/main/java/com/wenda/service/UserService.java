@@ -66,6 +66,7 @@ public class UserService {
         }
         String ticket=addLoginTicket(user.getId());
         map.put("ticket",ticket);
+        map.put("userId",String.valueOf(user.getId()));
         return map;
     }
     private String addLoginTicket(int userId){

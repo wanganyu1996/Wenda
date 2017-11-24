@@ -1,5 +1,8 @@
 package com.wenda.controller;
 
+import com.wenda.async.EventModel;
+import com.wenda.async.EventProducer;
+import com.wenda.async.EventType;
 import com.wenda.service.UserService;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -24,6 +27,9 @@ public class LoginController {
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
     @Autowired
     UserService userService;
+
+    @Autowired
+    EventProducer eventProducer;
     @RequestMapping(path = {"/reg/"},method = {RequestMethod.POST})
     public String reg(Model model,
                         @RequestParam("username") String username,
@@ -57,6 +63,8 @@ public class LoginController {
                 Cookie cookie=new Cookie("ticket",map.get("ticket"));
                 cookie.setPath("/");
                 response.addCookie(cookie);
+                eventProducer.fireEvent(new EventModel(EventType.LOGIN).setExt("username",username).setExt("email","2508635478@qq.com")
+                        .setActorId(Integer.parseInt(map.get("userId"))));
                 if(StringUtils.isNotBlank(next)){
                     return "redirect:"+next;
                 }
