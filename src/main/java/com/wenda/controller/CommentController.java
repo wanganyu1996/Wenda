@@ -47,7 +47,7 @@ public class CommentController {
            comment.setEntityType(EntityType.ENTITY_QUESTION);
            comment.setEntityId(questionId);
            commentService.addComment(comment);
-           int count=commentService.getCommnetCount(comment.getEntityId(),comment.getEntityType());
+           int count=commentService.getCommentCount(comment.getEntityId(),comment.getEntityType());
            questionService.updateCommentCount(comment.getEntityId(),count);
 
        } catch (Exception e) {

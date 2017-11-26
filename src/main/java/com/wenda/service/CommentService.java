@@ -29,8 +29,11 @@ public class CommentService {
     public Comment getCommentById(int id){
         return commentDao.getCommentById(id);
     }
-    public int getCommnetCount(int entityId,int entityType){
+    public int getCommentCount(int entityId,int entityType){
         return commentDao.getCommentCount(entityId,entityType);
+    }
+    public int getUserCommentCount(int userId) {
+        return commentDao.getUserCommentCount(userId);
     }
     public boolean deleteComment(int commentId){
         return commentDao.updateStatus(commentId,1)>0;

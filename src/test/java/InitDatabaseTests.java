@@ -5,6 +5,7 @@ import com.wenda.model.EntityType;
 import com.wenda.model.Question;
 import com.wenda.model.User;
 import com.wenda.service.FollowService;
+import com.wenda.util.JedisAdapter;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,13 +35,17 @@ public class InitDatabaseTests {
     @Autowired
     FollowService followService;
 
+    @Autowired
+   JedisAdapter jedisAdapter;
+
     @Test
     public void initDatabase(){
         Random random=new Random();
-        for(int i=0;i<11;i++){
+        jedisAdapter.getJedis().flushDB();
+        for(int i=0;i<10;i++){
             User user=new User();
             user.setHeadUrl(String.format("http://images.nowcoder.com/head/%dt.png",random.nextInt(1000)));
-            user.setName(String.format("USER%d",i));
+            user.setName(String.format("user%d",i+1));
             user.setPassword("");
             user.setSalt("");
             userDao.addUser(user);
@@ -60,8 +65,8 @@ public class InitDatabaseTests {
         questionDao.addQuestion(question);
         }
         Assert.assertEquals("xx",userDao.selectById(1).getPassword());
-        userDao.deleteById(1);
-        Assert.assertNull(userDao.selectById(1));
+       // userDao.deleteById(1);
+        //Assert.assertNull(userDao.selectById(1));
        System.out.print(questionDao.selectLatestQuestions(0,0,10));
     }
 }

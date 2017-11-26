@@ -29,7 +29,6 @@ public class EventConsumer implements InitializingBean,ApplicationContextAware{
    @Override
    public void afterPropertiesSet() throws Exception {
         Map<String,EventHandler> beans=applicationContext.getBeansOfType(EventHandler.class);
-       Set<String> key=beans.keySet();
         if(beans!=null){
            for(Map.Entry<String,EventHandler> entry:beans.entrySet()){
              List<EventType> eventTypes=entry.getValue().getSupportEventTypes();

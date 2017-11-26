@@ -76,7 +76,7 @@ public class QuestionController {
             comments.add(vo);
 
         }
-        Question question=questionService.selectById(qid);
+        Question question=questionService.getById(qid);
         model.addAttribute("comments",comments);
          model.addAttribute("question",question);
        model.addAttribute("user",userService.getUser(question.getUserId()));
