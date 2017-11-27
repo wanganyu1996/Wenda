@@ -82,6 +82,7 @@ public class FollowService {
         String followeeKey=RedisKeyUtil.getFolloweeKey(userId,entityType);
         return jedisAdapter.zcard(followeeKey);
     }
+    //获取粉丝数
     public long getFollowerCount(int entityType,int entityId){
         String followerKey=RedisKeyUtil.getFollowerKey(entityType,entityId);
         return jedisAdapter.zcard(followerKey);
