@@ -8,10 +8,9 @@ import com.wenda.model.EntityType;
 import com.wenda.model.Feed;
 import com.wenda.model.Question;
 import com.wenda.model.User;
-import com.wenda.service.FeedService;
-import com.wenda.service.MessageService;
-import com.wenda.service.QuestionService;
-import com.wenda.service.UserService;
+import com.wenda.service.*;
+import com.wenda.util.JedisAdapter;
+import com.wenda.util.RedisKeyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -36,6 +35,11 @@ public class FeedHandler implements EventHandler{
     @Autowired
     FeedService feedService;
 
+    @Autowired
+    FollowService followService;
+
+    @Autowired
+    JedisAdapter jedisAdapter;
 
     private String buildFeedData(EventModel eventModel){
       Map<String,String> map=new HashMap<String,String>();
@@ -70,6 +74,14 @@ public class FeedHandler implements EventHandler{
           return;
       }
       feedService.addFeed(feed);
+       //给事件的粉丝推
+        //获取所有粉丝
+        List<Integer> followers=followService.getFollowers(EntityType.ENTITY_USER, eventModel.getActorId(),Integer.MAX_VALUE);
+        followers.add(0);
+        for(int follower:followers){
+          String timeLineKey= RedisKeyUtil.getTimeLineKey(follower);
+          jedisAdapter.lpush(timeLineKey,String.valueOf(feed.getId()));
+        }
     }
 
     @Override

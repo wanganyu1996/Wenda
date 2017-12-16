@@ -1,5 +1,8 @@
 package com.wenda.controller;
 
+import com.wenda.async.EventModel;
+import com.wenda.async.EventProducer;
+import com.wenda.async.EventType;
 import com.wenda.model.*;
 import com.wenda.service.*;
 import com.wenda.util.WendaUtil;
@@ -36,6 +39,9 @@ public class QuestionController {
     FollowService followService;
     @Autowired
     HostHolder hostHolder;
+
+    @Autowired
+    EventProducer eventProducer;
     @RequestMapping(value = "/question/add",method = {RequestMethod.POST})
     @ResponseBody
     public String addQuestion(@RequestParam("title") String title,@RequestParam("content") String content){
@@ -52,6 +58,7 @@ public class QuestionController {
                question.setUserId(hostHolder.getUser().getId());
            }
             if(questionService.addQustion(question)>0){
+              eventProducer.fireEvent(new EventModel(EventType.ADD_QUESTION).setActorId(question.getUserId()).setEntityId(question.getId()).setExt("title",question.getTitle()).setExt("content",question.getContent()));
                return WendaUtil.getJSONString(0);
             }
         }catch (Exception e){
